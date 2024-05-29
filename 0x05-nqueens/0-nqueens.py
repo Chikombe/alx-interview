@@ -3,6 +3,7 @@
 N Queens Problem: Solving for N Queens on an N×N chessboard
 """
 
+
 def is_safe(board, row, col, N):
     """
     Check if it's safe to place a queen at board[row][col]
@@ -23,6 +24,7 @@ def is_safe(board, row, col, N):
             return False
 
     return True
+
 
 def solve_n_queens_util(board, row, N, solutions):
     """
@@ -51,6 +53,7 @@ def solve_n_queens_util(board, row, N, solutions):
             # Backtrack and remove the queen from the current position
             board[row][col] = 0
 
+
 def solve_n_queens(N):
     """
     Solves the N Queens problem and returns all solutions
@@ -59,6 +62,7 @@ def solve_n_queens(N):
     solutions = []
     solve_n_queens_util(board, 0, N, solutions)
     return solutions
+
 
 if __name__ == "__main__":
     N = int(input("Enter the value of N: "))
