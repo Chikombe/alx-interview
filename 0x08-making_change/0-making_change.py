@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+""" A module for making change"""
+
 
 def makeChange(coins, total):
     if total <= 0:
@@ -16,8 +18,3 @@ def makeChange(coins, total):
     # If dp[total] is still infinity,
     # it means it's not possible to make that amount
     return dp[total] if dp[total] != float('inf') else -1
-
-
-if __name__ == "__main__":
-    print(makeChange([1, 2, 25], 37))  # Expected output: 7
-    print(makeChange([1256, 54, 48, 16, 102], 1453))  # Expected output: -1
