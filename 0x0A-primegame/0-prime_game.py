@@ -1,56 +1,41 @@
 #!/usr/bin/python3
+"""Module defining isWinner function."""
+
 
 def sieve_of_eratosthenes(limit):
-    primes = [True] * (limit + 1)
-    p = 2
-    while p * p <= limit:
-        if primes[p]:
-            for i in range(p * p, limit + 1, p):
-                primes[i] = False
-        p += 1
-    prime_numbers = [p for p in range(2, limit + 1) if primes[p]]
-    return prime_numbers
+    """Returns a list of prime numbers up to the limit
+    using the Sieve of Eratosthenes algorithm."""
+    is_prime = [True] * (limit + 1)
+    is_prime[0] = is_prime[1] = False
+    for start in range(2, int(limit ** 0.5) + 1):
+        if is_prime[start]:
+            for multiple in range(start * start, limit + 1, start):
+                is_prime[multiple] = False
+    return [num for num, prime in enumerate(is_prime) if prime]
 
 
 def isWinner(x, nums):
+    """Determine the winner of the prime game after x rounds."""
     if x < 1 or not nums:
         return None
 
     max_n = max(nums)
     primes = sieve_of_eratosthenes(max_n)
+    prime_count = [0] * (max_n + 1)
+
+    for i in range(1, max_n + 1):
+        prime_count[i] = prime_count[i - 1]
+        if i in primes:
+            prime_count[i] += 1
 
     maria_wins = 0
     ben_wins = 0
 
     for n in nums:
-        # Simulate the game
-        if n < 2:
+        if prime_count[n] % 2 == 1:
+            maria_wins += 1
+        else:
             ben_wins += 1
-            continue
-
-        game_state = [True] * (n + 1)
-        game_state[0] = game_state[1] = False
-
-        current_player = "Maria"
-        while True:
-            move_made = False
-            for prime in primes:
-                if prime > n:
-                    break
-                if game_state[prime]:
-                    move_made = True
-                    for multiple in range(prime, n + 1, prime):
-                        game_state[multiple] = False
-                    break
-
-            if not move_made:
-                if current_player == "Maria":
-                    ben_wins += 1
-                else:
-                    maria_wins += 1
-                break
-
-            current_player = "Ben" if current_player == "Maria" else "Maria"
 
     if maria_wins > ben_wins:
         return "Maria"
